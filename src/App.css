@@ -1747,6 +1747,57 @@
   border-radius: 6px;
 }
 
+.admin-badge-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.admin-status-pill {
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: rgba(139, 92, 246, 0.2);
+  color: var(--accent-light);
+  border: 1px solid rgba(182, 154, 255, 0.35);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.admin-form-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) auto;
+}
+
+.btn-publish {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+}
+
+.btn-publish:hover {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+}
+
+.dashboard-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-view-soft {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(182, 154, 255, 0.3);
+  color: var(--accent-light);
+}
+
+.btn-view-soft:hover {
+  background: rgba(139, 92, 246, 0.25);
+  color: #ffffff;
+}
+
+.default-item {
+  opacity: 0.85;
+}
+
 /* ==========================================================================
    RESPONSIVE MEDIA QUERIES
    ========================================================================== */

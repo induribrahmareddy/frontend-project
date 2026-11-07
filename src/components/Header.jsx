@@ -34,6 +34,8 @@ function Header({ session, onNavigate, onLogout, currentPage = 'home' }) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const isAdmin = session?.role === 'admin'
+
   return (
     <header className="navbar">
       <div className="container navbar-container">
@@ -83,7 +85,7 @@ function Header({ session, onNavigate, onLogout, currentPage = 'home' }) {
                     onNavigate('dashboard')
                   }}
                 >
-                  👤 My Dashboard
+                  {isAdmin ? '🛡️ Admin Dashboard' : '👤 My Dashboard'}
                 </button>
                 <button
                   type="button"
@@ -132,7 +134,7 @@ function Header({ session, onNavigate, onLogout, currentPage = 'home' }) {
                 className="btn btn-outline nav-btn-dashboard"
                 onClick={() => onNavigate('dashboard')}
               >
-                👤 My Dashboard
+                {isAdmin ? '🛡️ Admin Dashboard' : '👤 My Dashboard'}
               </button>
               <button
                 type="button"
@@ -176,7 +178,7 @@ function Header({ session, onNavigate, onLogout, currentPage = 'home' }) {
   )
 }
 
-export function DashboardHeader({ onPortal, onLogout, name }) {
+export function DashboardHeader({ onPortal, onLogout, name, role }) {
   return (
     <header className="dashboard-header">
       <a
@@ -190,7 +192,12 @@ export function DashboardHeader({ onPortal, onLogout, name }) {
         🎮 Game<span className="logo-accent">Arena</span>
       </a>
       <nav aria-label="Dashboard navigation">
-        {name && <span className="dashboard-user-badge">👤 {name}</span>}
+        {name && (
+          <span className="dashboard-user-badge">
+            {role === 'admin' ? '🛡️ Admin: ' : '👤 '}
+            {name}
+          </span>
+        )}
         <button type="button" onClick={onPortal}>Public Portal</button>
         <button type="button" onClick={onLogout}>Logout</button>
       </nav>

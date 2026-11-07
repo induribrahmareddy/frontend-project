@@ -16,6 +16,14 @@ import User from './components/User.jsx'
 const tournamentStorageKey = 'gameArenaTournaments'
 const accountStorageKey = 'gameArenaAccounts'
 
+// Built-in test admin account
+const defaultAdminAccount = {
+  name: 'GameArena Admin',
+  email: 'admin@gmail.com',
+  password: 'admin@123',
+  role: 'admin',
+}
+
 function readPage() {
   const pathname = window.location.pathname.trim().replace(/\/+$/, '')
   const segment = pathname.split('/').pop()?.toLowerCase() || ''
@@ -38,13 +46,20 @@ function getPathForPage(pageName) {
 
 function readAccounts() {
   const savedAccounts = window.localStorage.getItem(accountStorageKey)
-  if (!savedAccounts) return []
+  if (!savedAccounts) {
+    try {
+      window.localStorage.setItem(accountStorageKey, JSON.stringify([defaultAdminAccount]))
+    } catch {
+      // Storage access error fallback
+    }
+    return [defaultAdminAccount]
+  }
 
   try {
     const accounts = JSON.parse(savedAccounts)
-    if (!Array.isArray(accounts)) return []
+    if (!Array.isArray(accounts)) return [defaultAdminAccount]
 
-    return accounts
+    const parsedAccounts = accounts
       .filter((account) => account && typeof account.email === 'string')
       .map((account) => ({
         name: account.name || 'Player',
@@ -52,8 +67,26 @@ function readAccounts() {
         password: account.password || '',
         role: account.role || (account.email.includes('admin') ? 'admin' : 'player'),
       }))
+
+    // Ensure the test admin account is always present and has admin role
+    const adminIndex = parsedAccounts.findIndex((account) => account.email === 'admin@gmail.com')
+    if (adminIndex === -1) {
+      parsedAccounts.unshift(defaultAdminAccount)
+      try {
+        window.localStorage.setItem(accountStorageKey, JSON.stringify(parsedAccounts))
+      } catch {
+        // Storage access error fallback
+      }
+    } else {
+      parsedAccounts[adminIndex].role = 'admin'
+      if (!parsedAccounts[adminIndex].password) {
+        parsedAccounts[adminIndex].password = 'admin@123'
+      }
+    }
+
+    return parsedAccounts
   } catch {
-    return []
+    return [defaultAdminAccount]
   }
 }
 
@@ -66,17 +99,18 @@ function readSession() {
     const account = readAccounts().find((savedAccount) => savedAccount.email === email)
     if (!account) {
       const name = window.localStorage.getItem('gameArenaName') || 'Player'
+      const role = window.localStorage.getItem('gameArenaRole') || (email.includes('admin') ? 'admin' : 'player')
       return {
         name,
         email,
-        role: 'player',
+        role,
       }
     }
 
     return {
       name: account.name,
       email: account.email,
-      role: account.role || 'player',
+      role: account.role || (email.includes('admin') ? 'admin' : 'player'),
     }
   } catch {
     return null
@@ -145,37 +179,45 @@ function App() {
   }
 
   function signIn({ email, password }) {
-    const normalizedEmail = email.trim().toLowerCase()
-    const account = accounts.find(
-      (savedAccount) => savedAccount.email === normalizedEmail && savedAccount.password === password,
-    )
+    const normalizedEmail = (email || '').trim().toLowerCase()
+    const inputPassword = password || ''
+    const trimmedInputPassword = inputPassword.trim()
+
+    const account = accounts.find((savedAccount) => {
+      if (savedAccount.email !== normalizedEmail) return false
+      const savedPass = savedAccount.password || ''
+      // Support exact match, trimmed match, or match without extra whitespace
+      return (
+        savedPass === inputPassword ||
+        savedPass === trimmedInputPassword ||
+        savedPass.trim() === trimmedInputPassword
+      )
+    })
 
     if (!account) {
       return 'No account matches that email and password. Create an account first or check your details.'
     }
 
+    const assignedRole = account.role || (account.email.includes('admin') ? 'admin' : 'player')
+
     window.localStorage.setItem('gameArenaName', account.name)
     window.localStorage.setItem('gameArenaUserEmail', account.email)
     window.localStorage.setItem('gameArenaLoggedIn', 'true')
-    if (account.role) {
-      window.localStorage.setItem('gameArenaRole', account.role)
-    } else {
-      window.localStorage.removeItem('gameArenaRole')
-    }
+    window.localStorage.setItem('gameArenaRole', assignedRole)
 
     setSession({
       name: account.name,
       email: account.email,
-      role: account.role || 'player',
+      role: assignedRole,
     })
 
-    // Redirect to authenticated user dashboard
+    // Redirect to authenticated user/admin dashboard
     navigate('dashboard')
     return ''
   }
 
   function createAccount({ name, email, password }) {
-    const normalizedEmail = email.trim().toLowerCase()
+    const normalizedEmail = (email || '').trim().toLowerCase()
     if (accounts.some((account) => account.email === normalizedEmail)) {
       return 'An account with this email already exists. Please log in instead.'
     }
@@ -183,12 +225,16 @@ function App() {
     const newAccount = {
       name: name.trim(),
       email: normalizedEmail,
-      password,
+      password: (password || '').trim(),
       role: normalizedEmail.includes('admin') ? 'admin' : 'player',
     }
 
     const updatedAccounts = [...accounts, newAccount]
-    window.localStorage.setItem(accountStorageKey, JSON.stringify(updatedAccounts))
+    try {
+      window.localStorage.setItem(accountStorageKey, JSON.stringify(updatedAccounts))
+    } catch {
+      // Storage access error fallback
+    }
     setAccounts(updatedAccounts)
     navigate('signup-success')
     return ''
@@ -209,13 +255,21 @@ function App() {
       id: `tourn-${Date.now()}`,
     }
     const updated = [...tournaments, item]
-    window.localStorage.setItem(tournamentStorageKey, JSON.stringify(updated))
+    try {
+      window.localStorage.setItem(tournamentStorageKey, JSON.stringify(updated))
+    } catch {
+      // Storage access error fallback
+    }
     setTournaments(updated)
   }
 
   function handleRemoveTournament(id) {
     const updated = tournaments.filter((tournament) => tournament.id !== id)
-    window.localStorage.setItem(tournamentStorageKey, JSON.stringify(updated))
+    try {
+      window.localStorage.setItem(tournamentStorageKey, JSON.stringify(updated))
+    } catch {
+      // Storage access error fallback
+    }
     setTournaments(updated)
   }
 
@@ -308,7 +362,7 @@ function App() {
     )
   }
 
-  // Authenticated Dashboard
+  // Authenticated Dashboard (Admin vs Player)
   if (requestedPage === 'dashboard') {
     if (session?.role === 'admin') {
       return (
