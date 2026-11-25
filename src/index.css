@@ -1,19 +1,20 @@
 :root {
-  font-family: Arial, Helvetica, sans-serif;
-  color: #f5f6fa;
-  background: #10131c;
+  font-family: 'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #f1f5f9;
+  background: #080d19;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
+  color-scheme: dark;
 
-  --background: #10131c;
-  --surface: #1b2030;
-  --surface-light: #252c40;
-  --text: #f5f6fa;
-  --muted: #b7bdcc;
-  --accent: #8b5cf6;
+  --background: #080d19;
+  --surface: #162036;
+  --surface-light: #1e2b45;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --accent: #38bdf8;
 }
 
 * {
@@ -22,12 +23,26 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
-  background: var(--background);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(56, 189, 248, 0.08) 0%, transparent 42%),
+    radial-gradient(circle at 88% 15%, rgba(251, 113, 133, 0.06) 0%, transparent 42%),
+    radial-gradient(circle at 50% 90%, rgba(45, 212, 191, 0.05) 0%, transparent 45%),
+    #080d19;
   color: var(--text);
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(56, 189, 248, 0.28);
+  color: #ffffff;
 }
 
 button,
@@ -48,4 +63,18 @@ a {
 
 button {
   color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080d19;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #0ea5e9, #14b8a6);
+  border-radius: 999px;
+  border: 2px solid #080d19;
 }

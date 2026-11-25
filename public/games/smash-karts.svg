@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 540" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="skSky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111833"/>
+      <stop offset="55%" stop-color="#172a4a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="skSpot1" cx="28%" cy="35%" r="42%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.42"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="skSpot2" cx="76%" cy="38%" r="44%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.36"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="540" fill="url(#skSky)"/>
+  <rect width="1600" height="540" fill="url(#skSpot1)"/>
+  <rect width="1600" height="540" fill="url(#skSpot2)"/>
+
+  <!-- Stadium arena arches -->
+  <path d="M120 350 Q800 90 1480 350" fill="none" stroke="#38bdf8" stroke-opacity="0.28" stroke-width="10"/>
+  <path d="M260 365 Q800 155 1340 365" fill="none" stroke="#2dd4bf" stroke-opacity="0.22" stroke-width="6"/>
+
+  <!-- Sweeping race track -->
+  <path d="M0 430 Q480 315 960 390 T1600 350 L1600 540 L0 540 Z" fill="#0b1222"/>
+  <path d="M0 455 Q480 342 960 415 T1600 375" fill="none" stroke="#38bdf8" stroke-width="5" stroke-opacity="0.6"/>
+  <path d="M0 495 Q480 385 960 455 T1600 415" fill="none" stroke="#fb7185" stroke-width="4" stroke-opacity="0.55" stroke-dasharray="28 18"/>
+
+  <!-- Lead Combat Kart (Cyan & Teal boost) -->
+  <g transform="translate(470, 315)">
+    <path d="M-150 62 L10 56 L-10 74 Z" fill="#2dd4bf" opacity="0.65"/>
+    <rect x="20" y="34" width="165" height="46" rx="14" fill="#0ea5e9"/>
+    <rect x="48" y="18" width="84" height="28" rx="10" fill="#1e293b"/>
+    <circle cx="52" cy="82" r="22" fill="#0f172a" stroke="#38bdf8" stroke-width="5"/>
+    <circle cx="152" cy="82" r="22" fill="#0f172a" stroke="#38bdf8" stroke-width="5"/>
+    <rect x="115" y="12" width="46" height="12" rx="4" fill="#fb7185"/>
+  </g>
+
+  <!-- Rival Combat Kart (Coral rocket trail) -->
+  <g transform="translate(970, 330)">
+    <path d="M-180 54 L20 46 L0 64 Z" fill="#fb7185" opacity="0.6"/>
+    <rect x="20" y="30" width="148" height="42" rx="12" fill="#e11d48"/>
+    <rect x="44" y="14" width="74" height="24" rx="8" fill="#1e293b"/>
+    <circle cx="48" cy="74" r="20" fill="#0f172a" stroke="#fb7185" stroke-width="4"/>
+    <circle cx="138" cy="74" r="20" fill="#0f172a" stroke="#fb7185" stroke-width="4"/>
+  </g>
+
+  <!-- Floating power-up star/orb -->
+  <circle cx="805" cy="255" r="24" fill="#fbbf24" opacity="0.25"/>
+  <circle cx="805" cy="255" r="13" fill="#fbbf24" opacity="0.85"/>
+</svg>

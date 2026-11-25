@@ -21,9 +21,13 @@ function CtaSection({ session, onNavigate }) {
                 >
                   Go to My Dashboard 👤
                 </button>
-                <a href="#tournaments" className="btn btn-outline btn-large">
+                <button
+                  type="button"
+                  className="btn btn-outline btn-large"
+                  onClick={() => onNavigate('tournaments')}
+                >
                   Browse Tournaments 🏆
-                </a>
+                </button>
               </div>
             ) : (
               <div className="cta-actions-column">

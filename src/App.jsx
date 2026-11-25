@@ -4,6 +4,7 @@ import About from './components/About.jsx'
 import Admin from './components/Admin.jsx'
 import CtaSection from './components/CtaSection.jsx'
 import Footer from './components/Footer.jsx'
+import GameDetail from './components/GameDetail.jsx'
 import Games from './components/Games.jsx'
 import Header from './components/Header.jsx'
 import Home from './components/Home.jsx'
@@ -26,8 +27,13 @@ const defaultAdminAccount = {
 
 function readPage() {
   const pathname = window.location.pathname.trim().replace(/\/+$/, '')
-  const segment = pathname.split('/').pop()?.toLowerCase() || ''
+  const lower = pathname.toLowerCase()
+  const segment = lower.split('/').pop() || ''
 
+  if (lower.startsWith('/game/') && segment) return `game:${segment}`
+  if (segment === 'games') return 'games'
+  if (segment === 'tournaments') return 'tournaments'
+  if (segment === 'about') return 'about'
   if (segment === 'portal') return 'portal'
   if (segment === 'login') return 'login'
   if (segment === 'signup') return 'signup'
@@ -41,7 +47,12 @@ function readPage() {
 
 function getPathForPage(pageName) {
   if (pageName === 'home') return '/'
+  if (pageName.startsWith('game:')) return `/game/${pageName.slice(5)}`
   return `/${pageName}`
+}
+
+function toGameSlug(gameName) {
+  return gameName.trim().toLowerCase().replace(/\s+/g, '-')
 }
 
 function readAccounts() {
@@ -388,7 +399,111 @@ function App() {
     )
   }
 
-  // Default: Public Homepage / Gaming Portal ('home' or 'portal')
+  // Dedicated AAA Game Page when clicking any game card
+  if (requestedPage.startsWith('game:')) {
+    const gameSlug = requestedPage.slice(5)
+    return (
+      <>
+        <Header
+          session={session}
+          onNavigate={navigate}
+          onLogout={signOut}
+          currentPage={requestedPage}
+        />
+        <GameDetail
+          gameSlug={gameSlug}
+          onBack={() => navigate('games')}
+          onExploreTournaments={() => navigate('tournaments')}
+        />
+        <Footer
+          session={session}
+          onNavigate={navigate}
+          onLogout={signOut}
+        />
+      </>
+    )
+  }
+
+  // Separate Page: Games (/games)
+  if (requestedPage === 'games') {
+    return (
+      <>
+        <Header
+          session={session}
+          onNavigate={navigate}
+          onLogout={signOut}
+          currentPage={requestedPage}
+        />
+        <main className="page-shell">
+          <Games onSelectGame={(gameName) => navigate(`game:${toGameSlug(gameName)}`)} />
+          <CtaSection session={session} onNavigate={navigate} />
+        </main>
+        <Footer
+          session={session}
+          onNavigate={navigate}
+          onLogout={signOut}
+        />
+      </>
+    )
+  }
+
+  // Separate Page: Tournaments (/tournaments)
+  if (requestedPage === 'tournaments') {
+    return (
+      <>
+        <Header
+          session={session}
+          onNavigate={navigate}
+          onLogout={signOut}
+          currentPage={requestedPage}
+        />
+        <main className="page-shell">
+          <Tournaments
+            tournaments={tournaments}
+            session={session}
+            onNavigate={navigate}
+          />
+          <CtaSection session={session} onNavigate={navigate} />
+        </main>
+        <Footer
+          session={session}
+          onNavigate={navigate}
+          onLogout={signOut}
+        />
+      </>
+    )
+  }
+
+  // Separate Page: About (/about)
+  if (requestedPage === 'about') {
+    return (
+      <>
+        <Header
+          session={session}
+          onNavigate={navigate}
+          onLogout={signOut}
+          currentPage={requestedPage}
+        />
+        <main className="page-shell">
+          <About />
+          <Stats
+            totalGames={4}
+            featuredTournaments={3}
+            availableEvents={3 + tournaments.length}
+            totalCategories={3}
+          />
+          <CtaSection session={session} onNavigate={navigate} />
+        </main>
+        <Footer
+          session={session}
+          onNavigate={navigate}
+          onLogout={signOut}
+        />
+      </>
+    )
+  }
+
+  // Separate Page: Home ('home' or 'portal')
   return (
     <>
       <Header
@@ -397,16 +512,10 @@ function App() {
         onLogout={signOut}
         currentPage={requestedPage}
       />
-      <main>
+      <main className="page-shell">
         <Home
-          onExploreTournaments={() => {
-            const el = document.getElementById('tournaments')
-            if (el) el.scrollIntoView({ behavior: 'smooth' })
-          }}
-          onBrowseGames={() => {
-            const el = document.getElementById('games')
-            if (el) el.scrollIntoView({ behavior: 'smooth' })
-          }}
+          onExploreTournaments={() => navigate('tournaments')}
+          onBrowseGames={() => navigate('games')}
         />
         <Stats
           totalGames={4}
@@ -414,13 +523,6 @@ function App() {
           availableEvents={3 + tournaments.length}
           totalCategories={3}
         />
-        <Games />
-        <Tournaments
-          tournaments={tournaments}
-          session={session}
-          onNavigate={navigate}
-        />
-        <About />
         <CtaSection
           session={session}
           onNavigate={navigate}

@@ -1,15 +1,8 @@
 function Footer({ session, onNavigate, onLogout }) {
-  function handleLinkClick(event, targetId) {
+  function handlePageClick(event, pageName) {
     event.preventDefault()
-    const element = document.getElementById(targetId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    } else if (onNavigate) {
-      onNavigate('home')
-      setTimeout(() => {
-        const el = document.getElementById(targetId)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
+    if (onNavigate) {
+      onNavigate(pageName)
     }
   }
 
@@ -18,9 +11,9 @@ function Footer({ session, onNavigate, onLogout }) {
       <div className="container footer-container">
         <div className="footer-brand">
           <a
-            href="#home"
+            href="/"
             className="logo"
-            onClick={(e) => handleLinkClick(e, 'home')}
+            onClick={(e) => handlePageClick(e, 'home')}
           >
             🎮 Game<span className="logo-accent">Arena</span>
           </a>
@@ -33,16 +26,16 @@ function Footer({ session, onNavigate, onLogout }) {
         <div className="footer-col">
           <h4>Navigation</h4>
           <div className="footer-nav-list">
-            <a href="#home" onClick={(e) => handleLinkClick(e, 'home')}>
+            <a href="/" onClick={(e) => handlePageClick(e, 'home')}>
               Home
             </a>
-            <a href="#games" onClick={(e) => handleLinkClick(e, 'games')}>
+            <a href="/games" onClick={(e) => handlePageClick(e, 'games')}>
               Games
             </a>
-            <a href="#tournaments" onClick={(e) => handleLinkClick(e, 'tournaments')}>
+            <a href="/tournaments" onClick={(e) => handlePageClick(e, 'tournaments')}>
               Tournaments
             </a>
-            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')}>
+            <a href="/about" onClick={(e) => handlePageClick(e, 'about')}>
               About
             </a>
           </div>

@@ -7,68 +7,54 @@ function Header({ session, onNavigate, onLogout, currentPage = 'home' }) {
     setMenuOpen(false)
   }
 
-  function handleNavLinkClick(event, targetId) {
+  function handleNavPageClick(event, pageName) {
     event.preventDefault()
     closeMenu()
-    if (currentPage === 'home' || currentPage === 'portal') {
-      const element = document.getElementById(targetId)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-        return
-      }
-    }
-    // If not on homepage, navigate to home and then scroll
-    onNavigate('home')
-    setTimeout(() => {
-      const element = document.getElementById(targetId)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
-    }, 100)
+    onNavigate(pageName)
   }
 
   function handleLogoClick(event) {
     event.preventDefault()
     closeMenu()
     onNavigate('home')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const isAdmin = session?.role === 'admin'
+  const normalizedPage = currentPage === 'portal' ? 'home' : currentPage
 
   return (
     <header className="navbar">
       <div className="container navbar-container">
-        <a href="#home" className="logo" onClick={handleLogoClick}>
+        <a href="/" className="logo" onClick={handleLogoClick}>
           🎮 Game<span className="logo-accent">Arena</span>
         </a>
 
         <nav className={`nav-menu${menuOpen ? ' mobile-active' : ''}`} aria-label="Main navigation">
           <a
-            href="#home"
-            className="nav-link"
-            onClick={(e) => handleNavLinkClick(e, 'home')}
+            href="/"
+            className={`nav-link${normalizedPage === 'home' ? ' active' : ''}`}
+            onClick={(e) => handleNavPageClick(e, 'home')}
           >
             Home
           </a>
           <a
-            href="#games"
-            className="nav-link"
-            onClick={(e) => handleNavLinkClick(e, 'games')}
+            href="/games"
+            className={`nav-link${normalizedPage === 'games' || normalizedPage.startsWith('game:') ? ' active' : ''}`}
+            onClick={(e) => handleNavPageClick(e, 'games')}
           >
             Games
           </a>
           <a
-            href="#tournaments"
-            className="nav-link"
-            onClick={(e) => handleNavLinkClick(e, 'tournaments')}
+            href="/tournaments"
+            className={`nav-link${normalizedPage === 'tournaments' ? ' active' : ''}`}
+            onClick={(e) => handleNavPageClick(e, 'tournaments')}
           >
             Tournaments
           </a>
           <a
-            href="#about"
-            className="nav-link"
-            onClick={(e) => handleNavLinkClick(e, 'about')}
+            href="/about"
+            className={`nav-link${normalizedPage === 'about' ? ' active' : ''}`}
+            onClick={(e) => handleNavPageClick(e, 'about')}
           >
             About
           </a>

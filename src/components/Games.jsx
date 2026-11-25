@@ -1,31 +1,31 @@
 const games = [
   {
-    icon: '🔫',
     name: 'BGMI',
+    image: '/games/bgmi.jpg',
     category: 'Battle Royale',
     badge: 'Popular',
     description: 'Intense 100-player tactical battlefield. Squad up and fight for the chicken dinner.',
     tag: 'Squad & Solo',
   },
   {
-    icon: '🔥',
     name: 'Free Fire',
+    image: '/games/free-fire.jpg',
     category: 'Battle Royale',
     badge: 'Fast Paced',
     description: 'Fast-action 50-player survival shooter designed for quick reflex combat.',
     tag: 'Survival FPS',
   },
   {
-    icon: '⚔️',
     name: 'COD Mobile',
+    image: '/games/cod-mobile.jpg',
     category: 'Action FPS',
     badge: 'Competitive',
     description: 'Signature Call of Duty multiplayer arenas with competitive Search & Destroy.',
     tag: '5v5 Multiplayer',
   },
   {
-    icon: '🏎️',
     name: 'Smash Karts',
+    image: '/games/smash-karts.jpg',
     category: 'Kart Combat',
     badge: 'Action Arcade',
     description: 'Chaotic 3D multiplayer kart combat filled with power-ups, rockets and mayhem.',
@@ -37,6 +37,7 @@ function Games({ onSelectGame }) {
   function handleGameClick(gameName) {
     if (onSelectGame) {
       onSelectGame(gameName)
+      return
     }
     const element = document.getElementById('tournaments')
     if (element) {
@@ -55,9 +56,19 @@ function Games({ onSelectGame }) {
 
         <div className="games-grid">
           {games.map((game) => (
-            <article className="game-card" key={game.name}>
+            <article
+              className="game-card game-card-clickable"
+              key={game.name}
+              onClick={() => handleGameClick(game.name)}
+            >
+              <div className="game-card-banner-wrap">
+                <img
+                  src={game.image}
+                  alt={`${game.name} arena artwork`}
+                  className="game-card-banner-img"
+                />
+              </div>
               <div className="game-card-top">
-                <div className="game-icon" aria-hidden="true">{game.icon}</div>
                 <span className="game-badge">{game.badge}</span>
               </div>
               <div className="game-card-body">
@@ -69,9 +80,12 @@ function Games({ onSelectGame }) {
                   <button
                     type="button"
                     className="game-action-btn"
-                    onClick={() => handleGameClick(game.name)}
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      handleGameClick(game.name)
+                    }}
                   >
-                    View Events →
+                    Play Arena →
                   </button>
                 </div>
               </div>

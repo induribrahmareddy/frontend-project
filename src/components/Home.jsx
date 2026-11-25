@@ -1,12 +1,4 @@
 function Home({ onExploreTournaments, onBrowseGames }) {
-  function handleScroll(e, targetId) {
-    e.preventDefault()
-    const element = document.getElementById(targetId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
   return (
     <section className="hero" id="home">
       <div className="container hero-container">
@@ -31,16 +23,26 @@ function Home({ onExploreTournaments, onBrowseGames }) {
 
           <div className="hero-buttons">
             <a
-              href="#tournaments"
+              href="/tournaments"
               className="btn btn-primary btn-large hero-btn-primary"
-              onClick={(e) => (onExploreTournaments ? (e.preventDefault(), onExploreTournaments()) : handleScroll(e, 'tournaments'))}
+              onClick={(e) => {
+                if (onExploreTournaments) {
+                  e.preventDefault()
+                  onExploreTournaments()
+                }
+              }}
             >
               Explore Tournaments 🏆
             </a>
             <a
-              href="#games"
+              href="/games"
               className="btn btn-outline btn-large hero-btn-secondary"
-              onClick={(e) => (onBrowseGames ? (e.preventDefault(), onBrowseGames()) : handleScroll(e, 'games'))}
+              onClick={(e) => {
+                if (onBrowseGames) {
+                  e.preventDefault()
+                  onBrowseGames()
+                }
+              }}
             >
               Browse Games 🎮
             </a>
@@ -82,9 +84,14 @@ function Home({ onExploreTournaments, onBrowseGames }) {
             </div>
             <div className="spotlight-footer">
               <a
-                href="#tournaments"
+                href="/tournaments"
                 className="spotlight-action"
-                onClick={(e) => handleScroll(e, 'tournaments')}
+                onClick={(e) => {
+                  if (onExploreTournaments) {
+                    e.preventDefault()
+                    onExploreTournaments()
+                  }
+                }}
               >
                 View Tournament Details →
               </a>

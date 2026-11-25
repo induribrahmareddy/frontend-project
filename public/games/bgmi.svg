@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 540" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgmiSky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1528"/>
+      <stop offset="50%" stop-color="#142d4c"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="bgmiSun" cx="68%" cy="42%" r="48%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.45"/>
+      <stop offset="45%" stop-color="#fb923c" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bgmiWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#163250"/>
+      <stop offset="100%" stop-color="#0a1220"/>
+    </linearGradient>
+    <linearGradient id="bgmiFlare" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="540" fill="url(#bgmiSky)"/>
+  <rect width="1600" height="540" fill="url(#bgmiSun)"/>
+
+  <!-- Distant mountain ridge -->
+  <path d="M0 350 L190 255 L360 310 L560 205 L760 285 L980 185 L1210 265 L1420 210 L1600 290 L1600 540 L0 540 Z" fill="#102138" opacity="0.88"/>
+  <!-- Mid citadel & bridge -->
+  <path d="M0 390 L260 350 L410 350 L450 260 L470 260 L495 315 L555 245 L580 245 L610 315 L670 315 L695 275 L730 350 L1600 370 L1600 540 L0 540 Z" fill="#0c1729"/>
+  <!-- Suspension bridge silhouette -->
+  <path d="M740 355 L1550 355 M920 220 L920 385 M1280 235 L1280 385" stroke="#1e3a5f" stroke-width="6" fill="none"/>
+  <path d="M740 355 Q920 235 1100 345 Q1280 245 1520 355" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="3" fill="none"/>
+
+  <!-- Water reflection -->
+  <rect x="0" y="385" width="1600" height="155" fill="url(#bgmiWater)" opacity="0.85"/>
+  <rect x="300" y="420" width="980" height="3" fill="url(#bgmiFlare)" opacity="0.5"/>
+  <rect x="480" y="448" width="660" height="2" fill="url(#bgmiFlare)" opacity="0.35"/>
+
+  <!-- Parachute supply drops -->
+  <g fill="#e2e8f0" opacity="0.72">
+    <path d="M1220 110 C1235 88 1265 88 1280 110 Z"/>
+    <line x1="1225" y1="110" x2="1248" y2="146" stroke="#94a3b8" stroke-width="1.5"/>
+    <line x1="1275" y1="110" x2="1252" y2="146" stroke="#94a3b8" stroke-width="1.5"/>
+    <rect x="1242" y="146" width="16" height="13" fill="#fb7185"/>
+  </g>
+  <g fill="#cbd5e1" opacity="0.5">
+    <path d="M1370 150 C1380 135 1400 135 1410 150 Z"/>
+    <line x1="1374" y1="150" x2="1389" y2="176" stroke="#94a3b8" stroke-width="1"/>
+    <line x1="1406" y1="150" x2="1391" y2="176" stroke="#94a3b8" stroke-width="1"/>
+    <rect x="1385" y="176" width="10" height="9" fill="#38bdf8"/>
+  </g>
+
+  <!-- Tactical foreground cliff & soldier silhouette -->
+  <path d="M0 445 L180 415 L360 465 L520 540 L0 540 Z" fill="#070d18"/>
+  <g transform="translate(215, 225)" fill="#070c16">
+    <!-- Helmet + tactical silhouette -->
+    <ellipse cx="62" cy="36" rx="22" ry="24"/>
+    <path d="M40 34 Q62 10 84 34 L88 44 L36 44 Z" fill="#162238"/>
+    <rect x="48" y="34" width="28" height="7" rx="3" fill="#38bdf8" opacity="0.85"/>
+    <path d="M24 72 L98 68 L112 140 L92 225 L34 225 L14 140 Z"/>
+    <!-- Rifle silhouette -->
+    <path d="M74 96 L185 74 L190 83 L80 108 Z" fill="#111b2e"/>
+    <rect x="124" y="69" width="26" height="6" rx="2" fill="#2dd4bf" opacity="0.7"/>
+  </g>
+
+  <!-- Subtle tactical HUD sweep lines -->
+  <line x1="0" y1="92" x2="1600" y2="92" stroke="#38bdf8" stroke-opacity="0.1" stroke-width="1"/>
+  <circle cx="1120" cy="210" r="145" fill="none" stroke="#38bdf8" stroke-opacity="0.12" stroke-width="1.5" stroke-dasharray="6 10"/>
+</svg>
